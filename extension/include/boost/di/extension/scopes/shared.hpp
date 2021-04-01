@@ -66,10 +66,21 @@ class shared {
         std::lock_guard<std::mutex> lock(mutex_);
         if (!object)
 #endif
-          object = std::shared_ptr<T>{provider.get()};
+        {
+          auto raw_ptr_from_get = provider.get();
+
+          // Check one last time and use that instead so that the shared_ptr comes from the right place
+          if(object)
+          {
+            return wrappers::shared<shared, T>{std::static_pointer_cast<T>(object)};
+          }
+
+          object = std::shared_ptr<T>{raw_ptr_from_get};
+        }
       }
       return wrappers::shared<shared, T>{std::static_pointer_cast<T>(object)};
     }
+
 
    private:
 #if !defined(BOOST_DI_NOT_THREAD_SAFE)
