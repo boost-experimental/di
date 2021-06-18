@@ -21,7 +21,7 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
     string(REPLACE "17" "1z" COMPILER_SPECIFIC_CXX_STANDARD ${COMPILER_SPECIFIC_CXX_STANDARD})
     string(REPLACE "20" "2a" COMPILER_SPECIFIC_CXX_STANDARD ${COMPILER_SPECIFIC_CXX_STANDARD})    
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMPILER_SPECIFIC_CXX_STANDARD} -fno-exceptions -pedantic -pedantic-errors -Wall -Wextra -Werror")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMPILER_SPECIFIC_CXX_STANDARD}  -fno-omit-frame-pointer -fsanitize=address,undefined -fno-exceptions -pedantic -pedantic-errors -Wall -Wextra -Werror")
 
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang OR ${CMAKE_CXX_COMPILER_ID} STREQUAL AppleClang)
     set(COMPILER_SPECIFIC_CXX_STANDARD "-std=c++${CXX_STANDARD}")
@@ -29,7 +29,7 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang OR ${CMAKE_CXX_COMPILER_ID} STRE
     string(REPLACE "17" "1z" COMPILER_SPECIFIC_CXX_STANDARD ${COMPILER_SPECIFIC_CXX_STANDARD})
     string(REPLACE "20" "2a" COMPILER_SPECIFIC_CXX_STANDARD ${COMPILER_SPECIFIC_CXX_STANDARD})    
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMPILER_SPECIFIC_CXX_STANDARD} -fno-exceptions -pedantic -pedantic-errors -Wall -Wextra -Werror")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMPILER_SPECIFIC_CXX_STANDARD} -fno-omit-frame-pointer -fsanitize=address,undefined -fno-exceptions -pedantic -pedantic-errors -Wall -Wextra -Werror")
     
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
     set(COMPILER_SPECIFIC_CXX_STANDARD "/std:c++${CXX_STANDARD}")
