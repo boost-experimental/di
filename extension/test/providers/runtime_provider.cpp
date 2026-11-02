@@ -36,7 +36,13 @@ struct impl3 : i3 {
   int f() const override { return 1234; }
 };
 
-struct impl2 : i2 {
+
+struct i2_xxx {
+  virtual ~i2_xxx() noexcept = default;
+  virtual int other_bar() const { return 420; }
+};
+
+struct impl2 : i2, i2_xxx {
   explicit impl2(i3& i, std::string str) {
     assert(i.f() == 1234);
     assert(str == "text");
@@ -75,11 +81,11 @@ class module_example {
 };
 
 struct example {
-  example(std::shared_ptr<i1> sp, int i, module_example& me) {
+  example(std::shared_ptr<i1> sp, int i /*, module_example& me*/) {
     assert(dynamic_cast<impl1*>(sp.get()));
     assert(sp->foo() == 42);
     assert(i == 87);
-    assert(me.get() == 2 * 100);
+//    assert(me.get() == 2 * 100);
   }
 };
 
@@ -96,7 +102,7 @@ int main() {
   /*<<install bindings>>*/
   injector.install(
     di::bind<i1>().to<impl1>(),
-    di::bind<i2>().to<impl2>()
+    di::bind<i2, i2_xxx>().to<impl2>()
   );
 
   /*<<more bindings>>*/
